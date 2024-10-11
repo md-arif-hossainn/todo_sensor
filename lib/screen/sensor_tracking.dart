@@ -34,10 +34,10 @@ class SensorTrackingScreenState extends State<SensorTrackingScreen> {
         z: event.z,
       ));
       if (_gyroData.length > 100) {
-        _gyroData.removeAt(0); // Limit the data points in the list
+        _gyroData.removeAt(0);
       }
 
-      // Check for alerts with gyroscope data
+
       _checkForAlert(event.x, event.y, event.z, _gyroThreshold, 'Gyroscope');
     });
 

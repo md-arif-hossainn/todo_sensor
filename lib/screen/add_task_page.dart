@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:todo_sensor/screen/task_details_page.dart';
 import 'package:todo_sensor/widget/add_task_card.dart';
@@ -154,7 +153,7 @@ class AddTaskPageState extends State<AddTaskPage> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        '$_submittedTask (${_subTasks.length})', // Show submitted task with count
+        '$_submittedTask (${_subTasks.length})',
         style: const TextStyle(fontSize: 18),
       ),
     );
@@ -171,13 +170,16 @@ class AddTaskPageState extends State<AddTaskPage> {
       itemCount: _subTasks.length,
       itemBuilder: (context, index) {
         final subTask = _subTasks[index];
-        print('=======================$subTask');
+        print('=======================$subTask=======================');
         return GestureDetector(
-          onTap: () {
-            Navigator.push(
+          onTap: () async {
+            final result = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TaskDetailsPage()),
+              MaterialPageRoute(builder: (context) => TaskDetailsPage(subTaskId: subTask['id'],subTaskName: subTask['name'],date: subTask['date'])),
             );
+            if (result == true) {
+              _refreshMainTasks();
+            }
           },
           child: SubTaskCard(
             title: subTask['name'] ?? 'No name',
@@ -198,7 +200,7 @@ class AddTaskPageState extends State<AddTaskPage> {
   Future<void> _handleTaskSubmit() async {
     if (subTaskController.text.isNotEmpty) {
 
-      print("==============sent database request with previous id");
+      print("sent database request with previous id");
       if (widget.mainTaskId != null) {
         await _databaseHelper.createSubTask(
           subTaskController.text.isNotEmpty ? subTaskController.text : '',
@@ -207,7 +209,7 @@ class AddTaskPageState extends State<AddTaskPage> {
           widget.mainTaskId!,
         );
       }  else{
-        print("==============sent database request with new id");
+        print("sent database request with new id");
         await _databaseHelper.createSubTask(
           subTaskController.text.isNotEmpty ? subTaskController.text : '',
           _selectedDate != null ? _selectedDate.toString() : '', // Example date

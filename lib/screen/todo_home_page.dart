@@ -20,12 +20,6 @@ class TodoHomePageState extends State<TodoHomePage> {
     _refreshMainTasks();
   }
 
-  // Future<void> _refreshMainTasks() async {
-  //   final data = await _databaseHelper.getMainTasks();
-  //   setState(() {
-  //     _mainTasks = data;
-  //   });
-  // }
 
   Future<void> _refreshMainTasks() async {
     final data = await _databaseHelper.getMainTasks();
@@ -41,7 +35,7 @@ class TodoHomePageState extends State<TodoHomePage> {
     }
 
     setState(() {
-      _mainTasks = tasksWithCounts; // Update the state with combined data
+      _mainTasks = tasksWithCounts;
     });
   }
 
@@ -53,7 +47,7 @@ class TodoHomePageState extends State<TodoHomePage> {
         children: [
           _buildHeader(),
           const Divider(
-            height: 2,
+            height: 1,
             color: Colors.grey,
           ),
           Flexible(
@@ -74,15 +68,15 @@ class TodoHomePageState extends State<TodoHomePage> {
     );
   }
 
-  // Function to build the list of tasks
+
   Widget _buildTaskList() {
     return ListView.builder(
       itemCount: _mainTasks.length,
       itemBuilder: (context, index) {
         final mainTask = _mainTasks[index];
         return _buildTaskSummaryCard(
-          mainTaskName: mainTask['name'] ?? 'No name', // Get task name from database
-          taskCount:  mainTask['subTaskCount'].toString(), // Get task count from database
+          mainTaskName: mainTask['name'] ?? 'No name',
+          taskCount:  mainTask['subTaskCount'].toString(),
           index :  mainTask['id']
         );
       },
@@ -105,7 +99,7 @@ class TodoHomePageState extends State<TodoHomePage> {
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
         child: Container(
-          width: double.infinity, // Set specific width
+          width: double.infinity,
           padding: const EdgeInsets.all(18.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -120,21 +114,21 @@ class TodoHomePageState extends State<TodoHomePage> {
             ],
           ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align items to the top
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Icon(Icons.list, size: 28.0, color: Color(0xFF36E0E0)), // List icon
-              const SizedBox(width: 20.0), // Spacing between the icon and text
+              const SizedBox(width: 20.0),
               Expanded(
                 child: Text(
                   mainTaskName,
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                  overflow: TextOverflow.ellipsis, // Handle long text overflow
-                  maxLines: 1, // Limit the number of text lines
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
-              const SizedBox(width: 10), // Spacing before showing task count
+              const SizedBox(width: 10),
               Text(
-                taskCount, // Display the total number of tasks
+                taskCount,
                 style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w300,

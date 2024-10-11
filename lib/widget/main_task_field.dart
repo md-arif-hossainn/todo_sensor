@@ -1,4 +1,3 @@
-// task_text_field.dart
 import 'package:flutter/material.dart';
 
 class MainTaskField extends StatelessWidget {
@@ -6,10 +5,10 @@ class MainTaskField extends StatelessWidget {
   final Function(String) onSubmitted;
 
   const MainTaskField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

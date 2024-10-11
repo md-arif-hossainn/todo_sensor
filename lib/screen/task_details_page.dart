@@ -1,30 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class TaskDetailsPage extends StatelessWidget {
-  const TaskDetailsPage({super.key});
+import '../db/sql_helper.dart';
+
+
+class TaskDetailsPage extends StatefulWidget {
+  final int? subTaskId;
+  final String? subTaskName;
+  final String? date;
+  const TaskDetailsPage({super.key,this.subTaskId,this.subTaskName,this.date});
+
+  @override
+  State<TaskDetailsPage> createState() => _TaskDetailsPageState();
+}
+
+class _TaskDetailsPageState extends State<TaskDetailsPage> {
+  String _formatDate(String? dateString) {
+    if (dateString == null || dateString.isEmpty) {
+      return "No Date Selected";
+    }
+    try {
+      DateTime parsedDate = DateTime.parse(dateString.split(' ')[0]);
+      return DateFormat('EEE, d MMMM').format(parsedDate);
+    } catch (e) {
+      return "Invalid date";
+    }
+  }
+
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reminders'),
+        title: Text(widget.subTaskName!),
       ),
       body: Container(
-        color: Colors.white, // Set background color to white
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 28), // Padding around the container
+        color: Colors.white,
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 28),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures content is spaced apart
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(Icons.notifications, color: Colors.grey), // Notification icon
-                    SizedBox(width: 8), // Spacing between icon and text
+                    SizedBox(width: 8),
                     Text(
-                      'Remind Me', // Reminder Me text
+                      'Remind Me',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -32,27 +59,30 @@ class TaskDetailsPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 16), // Space between rows
+                const SizedBox(height: 16), // Space between rows
                 Row(
                   children: [
-                    Icon(Icons.calendar_month, color: Color.fromRGBO(54, 224, 224, 1.0),), // Calendar icon
-                    SizedBox(width: 8), // Spacing between icon and text
+                    Icon(
+                      Icons.calendar_month,
+                      color: widget.date == "" ? Colors.grey : const Color.fromRGBO(54, 224, 224, 1.0),
+                    ),
+                    const SizedBox(width: 8),
                     Text(
-                      'Due 12 Oct, 2024', // Date text
+                      _formatDate(widget.date),
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color.fromRGBO(54, 224, 224, 1.0),
+                        color: widget.date == "" ? Colors.grey : const Color.fromRGBO(54, 224, 224, 1.0),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16), // Space between rows
-                Row(
+                const SizedBox(height: 16),
+                const Row(
                   children: [
-                    Icon(Icons.note, color: Colors.grey), // Note icon
-                    SizedBox(width: 8), // Spacing between icon and text
+                    Icon(Icons.note, color: Colors.grey),
+                    SizedBox(width: 8),
                     Text(
-                      'Add Note', // Note text
+                      'Add Note',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -62,13 +92,12 @@ class TaskDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-            // Add delete section here at the bottom
             GestureDetector(
-              onTap: () => _showCombinedDialog(context),
+              onTap: () => _showAlertDialog(context),
               child: const Row(
                 children: [
-                  Icon(Icons.delete, color: Colors.red), // Delete icon
-                  SizedBox(width: 8), // Spacing between icon and text
+                  Icon(Icons.delete, color: Colors.red),
+                  SizedBox(width: 8),
                   Text(
                     'Delete', // Delete text
                     style: TextStyle(
@@ -86,7 +115,7 @@ class TaskDetailsPage extends StatelessWidget {
     );
   }
 
-  void _showCombinedDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -94,63 +123,54 @@ class TaskDetailsPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Delete Dialog
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                   // crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Delete Permanently',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Divider(),
-                      GestureDetector(
-                        onTap: () {
-                          // Add delete functionality here
-                        },
-                        child: const Text(
-                          'Delete',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
+            height: MediaQuery.of(context).size.height*0.15,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                    Text(
+                    '${widget.subTaskName} will be permanently delete?',
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey
+                    ),
                   ),
-                ),
-                const Divider(
-                  height: 1,
-                ),
-                // Cancel Dialog
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    child: const Center(
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                  const Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      _databaseHelper.deleteSubTask(widget.subTaskId!);
+                      Navigator.pop(context);
+                      Navigator.pop(context, true);
+                    },
+                    child: const Text(
+                      'Delete Task',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
                       ),
                     ),
                   ),
-                ),
-              ],
+                  const Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromRGBO(54, 224, 224, 1.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -158,5 +178,3 @@ class TaskDetailsPage extends StatelessWidget {
     );
   }
 }
-
-
