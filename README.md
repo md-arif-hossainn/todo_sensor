@@ -9,9 +9,9 @@ Task Management: Users can add, edit, and remove task headings, details, and due
 Task Completion: Users can mark tasks as completed, allowing them to manage their to-do list effectively.
 Due Date Notifications: The app sends in-app notifications when a task's due date matches the current date, ensuring users stay informed and on track.
 Sensor Tracking:
-
 Real-Time Data Visualization: The application features two graphs that continuously display real-time data from the device's gyroscope and accelerometer sensors.
 Movement Alerts: An alert is triggered if significant movement is detected on any two axes simultaneously, notifying users with the message "ALERT".
+
 Technical Details
 Architecture: The application is structured around a local store database, utilizing a two-table relationship for effective data management and retrieval.
 Local Notifications: Implemented using the local notification package to alert users of due dates in a timely manner.
