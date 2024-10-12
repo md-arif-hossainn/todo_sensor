@@ -25,3 +25,12 @@ Notifications: Local notifications package
 Sensors: Sensors Plus package for gyroscope and accelerometer data
 Charting: Syncfusion Flutter Charts for data visualization
 samples, guidance on mobile development, and a full API reference.
+
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/1.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/2.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/3.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/4.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/5.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/6.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/7.jpg
+https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/8.jpg
