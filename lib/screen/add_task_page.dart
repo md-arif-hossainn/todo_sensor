@@ -4,8 +4,10 @@ import 'package:todo_sensor/widget/add_task_card.dart';
 import 'package:todo_sensor/widget/main_task_field.dart';
 import 'package:todo_sensor/widget/task_input_design.dart';
 import 'package:todo_sensor/widget/sub_task_card.dart';
+import 'package:intl/intl.dart';
 
 import '../db/sql_helper.dart';
+import '../services/notification_services.dart';
 
 class AddTaskPage extends StatefulWidget {
   final int? mainTaskId;
@@ -46,8 +48,10 @@ class AddTaskPageState extends State<AddTaskPage> {
         _submittedTask = widget.mainTaskName!;
       }
     }
+    NotificationServices.askForNotificationPermission();
     super.initState();
   }
+
 
   Future<void> _refreshMainTasks() async {
     List<Map<String, dynamic>> subTaskData;
@@ -135,8 +139,18 @@ class AddTaskPageState extends State<AddTaskPage> {
               onTaskChanged: (value) {
                 setState(() {});
               },
-              onTaskSubmitted: (value) {
+              onTaskSubmitted: (value) async {
                 _handleTaskSubmit();
+               if(_selectedDate == ''){
+
+               }else{
+                 await NotificationServices.scheduleNotificationAtSpecificTime(
+                   title: "Task Reminder",
+                   body: "Are you complete this ${subTaskController.text} task?",
+                   payload: "Scheduled Notification",
+                  date:_selectedDate.toString()
+                 );
+               }
               },
               onSubmit: _handleTaskSubmit,
               onDateTap: _showDatePicker,

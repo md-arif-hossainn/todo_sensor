@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:todo_sensor/services/notification_services.dart';
 import 'package:todo_sensor/widget/custom_elevated_button.dart';
 import 'package:todo_sensor/screen/sensor_tracking.dart';
 import 'package:todo_sensor/screen/todo_home_page.dart';
 
-void main() => runApp(const SensorTrackingApp());
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationServices.init();
+  runApp(const SensorTrackingApp());
+}
 
 class SensorTrackingApp extends StatelessWidget {
   const SensorTrackingApp({super.key});

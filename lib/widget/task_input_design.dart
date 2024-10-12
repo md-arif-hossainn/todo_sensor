@@ -1,74 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-//
-// class TaskInput extends StatefulWidget {
-//   final TextEditingController controller;
-//   final DateTime? selectedDate;
-//   final bool isChecked;
-//   final Function(bool) onCheckedChanged;
-//   final Function onSubmit;
-//   final Function onDatePickerTap;
-//
-//   TaskInput({
-//     required this.controller,
-//     this.selectedDate,
-//     required this.isChecked,
-//     required this.onCheckedChanged,
-//     required this.onSubmit,
-//     required this.onDatePickerTap,
-//   });
-//
-//   @override
-//   _TaskInputState createState() => _TaskInputState();
-// }
-//
-// class _TaskInputState extends State<TaskInput> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(
-//           children: [
-//             Checkbox(
-//               value: widget.isChecked,
-//               onChanged: (bool? value) {
-//                 if (value != null) {
-//                   widget.onCheckedChanged(value);
-//                 }
-//               },
-//             ),
-//             Expanded(
-//               child: TextField(
-//                 controller: widget.controller,
-//                 decoration: const InputDecoration(
-//                   hintText: 'Add a Task',
-//                   border: InputBorder.none,
-//                 ),
-//                 onSubmitted: (value) => widget.onSubmit(),
-//               ),
-//             ),
-//             IconButton(
-//               icon: const Icon(Icons.check),
-//               onPressed: () => widget.onSubmit(),
-//             ),
-//           ],
-//         ),
-//         Row(
-//           children: [
-//             IconButton(
-//               icon: const Icon(Icons.calendar_today),
-//               onPressed: () => widget.onDatePickerTap(),
-//             ),
-//             widget.selectedDate != null
-//                 ? Text(DateFormat('EEE, dd MMM').format(widget.selectedDate!))
-//                 : const Text('No date selected'),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -83,7 +12,7 @@ class TaskInputDesign extends StatelessWidget {
   final DateTime? selectedDate;
 
   const TaskInputDesign({
-    Key? key,
+    super.key,
     required this.isChecked,
     required this.onCheckboxChanged,
     required this.controller,
@@ -92,7 +21,7 @@ class TaskInputDesign extends StatelessWidget {
     required this.onSubmit,
     required this.onDateTap,
     this.selectedDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

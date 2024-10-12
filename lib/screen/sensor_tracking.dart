@@ -26,7 +26,6 @@ class SensorTrackingScreenState extends State<SensorTrackingScreen> {
 
   void _startSensorTracking() {
     gyroscopeEventStream().listen((GyroscopeEvent event) {
-      // Collect the data
       _gyroData.add(_SensorData(
         time: DateTime.now(),
         x: event.x,
@@ -42,7 +41,6 @@ class SensorTrackingScreenState extends State<SensorTrackingScreen> {
     });
 
     accelerometerEventStream().listen((AccelerometerEvent event) {
-      // Collect the data
       _accelData.add(_SensorData(
         time: DateTime.now(),
         x: event.x,
@@ -53,11 +51,9 @@ class SensorTrackingScreenState extends State<SensorTrackingScreen> {
         _accelData.removeAt(0); // Limit the data points in the list
       }
 
-      // Check for alerts with accelerometer data
       _checkForAlert(event.x, event.y, event.z, _accelThreshold, 'Accelerometer');
     });
 
-    // Timer to update the graph every second
     _timer = Timer.periodic(const Duration(seconds: 0), (Timer timer) {
       setState(() {
         // Force the chart to rebuild and display the most recent data
@@ -68,21 +64,25 @@ class SensorTrackingScreenState extends State<SensorTrackingScreen> {
   }
 
   void _checkForAlert(double x, double y, double z, double threshold, String sensorType) {
-    // Check for simultaneous movement on any two axes
     bool isXHigh = x.abs() > threshold;
     bool isYHigh = y.abs() > threshold;
     bool isZHigh = z.abs() > threshold;
 
     if ((isXHigh && isYHigh) || (isXHigh && isZHigh) || (isYHigh && isZHigh)) {
-      setState(() {
-        _alertMessage = 'ALERT: Significant movement detected on multiple axes!';
-      });
+      if (mounted) {
+        setState(() {
+          _alertMessage = 'ALERT: Significant movement detected on multiple axes!';
+        });
+      }
     } else {
-      setState(() {
-        _alertMessage = ''; // Clear the alert if conditions are not met
-      });
+      if (mounted) {
+        setState(() {
+          _alertMessage = '';
+        });
+      }
     }
   }
+
 
   @override
   void dispose() {
