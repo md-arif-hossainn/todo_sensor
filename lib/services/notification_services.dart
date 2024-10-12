@@ -91,7 +91,7 @@ class NotificationServices {
     tz.TZDateTime nextInstanceOfSpecificTime() {
       DateTime parsedDate = DateTime.parse(date); // Format: "yyyy-MM-dd"
 
-      tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, parsedDate.year, parsedDate.month, parsedDate.day, 13,32);
+      tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, parsedDate.year, parsedDate.month, parsedDate.day, 13,49);
 
       final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
       if (scheduledDate.isBefore(now)) {
