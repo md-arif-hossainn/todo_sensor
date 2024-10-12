@@ -26,7 +26,7 @@ Sensors: Sensors Plus package for gyroscope and accelerometer data
 Charting: Syncfusion Flutter Charts for data visualization
 samples, guidance on mobile development, and a full API reference.
 
-# Screen shot of this application
+# Screenshot of this application
 <p float="left" >
 <img src="https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/1.jpg" width="220"/>
 <img src="https://github.com/md-arif-hossainn/todo_sensor/blob/master/lib/screen_shot/2.jpg" width="220"/>
